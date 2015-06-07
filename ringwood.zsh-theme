@@ -49,5 +49,5 @@ PROMPT="╭─${user_host} ${current_dir} ${rvm_ruby} ${git_branch}
 ╰─$PR_PROMPT "
 RPS1="${return_code}"
 
-ZSH_THEME_GIT_PROMPT_PREFIX="%{$PR_YELLOW%}‹"
+ZSH_THEME_GIT_PROMPT_PREFIX="%{$PR_YELLOW%}‹\u2325 "
 ZSH_THEME_GIT_PROMPT_SUFFIX="› %{$PR_NO_COLOR%}"
