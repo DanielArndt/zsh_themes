@@ -37,7 +37,8 @@ prompt_git() {
 
   if $(git rev-parse --is-inside-work-tree >/dev/null 2>&1); then
     dirty=$(parse_git_dirty)
-    ref=$(git symbolic-ref HEAD 2> /dev/null) || ref="➦ $(git show-ref --head -s --abbrev |head -n1 2> /dev/null)"
+    sha=$(git show-ref --head -s --abbrev |head -n1 2> /dev/null)
+    ref="$(git symbolic-ref HEAD 2> /dev/null) (@ $sha)" || ref="➦  $sha"
 
     if [[ -n $dirty ]]; then
       prompt_segment yellow black
@@ -114,8 +115,8 @@ fi
 local git_branch='$(git_prompt_info)%{$PR_NO_COLOR%}'
 
 #PROMPT="${user_host} ${current_dir} ${rvm_ruby} ${git_branch}$PR_PROMPT "
-PROMPT="╭─${current_time} ${user_host} ${current_dir} ${rvm_ruby}"' $(prompt_git)'"
-╰─$PR_PROMPT "
+PROMPT="${current_time} ${user_host} ${current_dir} ${rvm_ruby}"' $(prompt_git)'"
+$PR_PROMPT "
 RPS1='$(vi_mode_prompt_info) '"${return_code}"
 
 ZSH_THEME_GIT_PROMPT_PREFIX="%{$PR_YELLOW%}\u2325 "
