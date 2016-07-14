@@ -40,11 +40,6 @@ prompt_git() {
     sha=$(git show-ref --head -s --abbrev |head -n1 2> /dev/null)
     ref="$(git symbolic-ref HEAD 2> /dev/null) (@ $sha)" || ref="➦  $sha"
 
-    if [[ -n $dirty ]]; then
-      prompt_segment yellow black
-    else
-      prompt_segment green black
-    fi
 
     if [[ -e "${repo_path}/BISECT_LOG" ]]; then
       mode=" <B>"
@@ -52,6 +47,13 @@ prompt_git() {
       mode=" >M<"
     elif [[ -e "${repo_path}/rebase" || -e "${repo_path}/rebase-apply" || -e "${repo_path}/rebase-merge" || -e "${repo_path}/../.dotest" ]]; then
       mode=" >R>"
+    fi
+    if [[ -n "$mode" ]]; then
+        prompt_segment red black
+    elif [[ "$dirty" == "$ZSH_THEME_GIT_PROMPT_DIRTY" ]]; then
+      prompt_segment yellow black
+    else
+      prompt_segment green black
     fi
 
     setopt promptsubst
@@ -123,4 +125,3 @@ ZSH_THEME_GIT_PROMPT_PREFIX="%{$PR_YELLOW%}\u2325 "
 ZSH_THEME_GIT_PROMPT_SUFFIX="%{$PR_NO_COLOR%}"
 ZSH_THEME_GIT_PROMPT_CLEAN=" (✔)"
 ZSH_THEME_GIT_PROMPT_DIRTY=" (✗)"
-
