@@ -72,6 +72,12 @@ prompt_git() {
   fi
 }
 
+show_virtual_env() {
+  if [[ -n "$VIRTUAL_ENV" && -n "$DIRENV_DIR" ]]; then
+    echo "($(basename $VIRTUAL_ENV))"
+  fi
+}
+
 # load some modules
 autoload -U zsh/terminfo # Used in the colour alias below
 setopt prompt_subst
@@ -117,7 +123,7 @@ fi
 local git_branch='$(git_prompt_info)%{$PR_NO_COLOR%}'
 
 #PROMPT="${user_host} ${current_dir} ${rvm_ruby} ${git_branch}$PR_PROMPT "
-PROMPT="${current_time} ${user_host} ${current_dir} ${rvm_ruby}"' $(prompt_git)'"
+PROMPT="${current_time} ${user_host} ${current_dir} ${rvm_ruby}"' $(prompt_git) $(show_virtual_env) '"
 $PR_PROMPT "
 RPS1='$(vi_mode_prompt_info) '"${return_code}"
 
